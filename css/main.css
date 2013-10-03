@@ -1,0 +1,50 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+body {
+	background-image: url(../img/display/nnyc.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: gray;
+	background-position: scroll;
+}
+
+section {
+	background-color: white;
+	opacity: .9
+}
+
+.jumbotron {
+	opacity: .9;
+}
+
+.jumbotron p {
+	color: black;
+}
+
+#footer {
+	color: white;
+}
+
+/*Fonts*/
+h1 {
+	color: white;
+}
+
+p {
+	color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
