@@ -90,8 +90,8 @@
 	    	';
 
 	    	$this->footer = '
-	    		<footer id="footer" class="footer container">
-		            <div class="text-muted">
+	    		<footer id="footer" class="container">
+		            <div class="text-muted navbar navbar-fixed-bottom">
 		                &copy; Joshua John Villahermosa <br>
 		                <p>Note: All tools made with the development of this Website are NOT tools created by me and NOT coprtighted by me. They belong to thier respective developers to bring a awesome user expernence. For more information about these tools, <a href="#/tools">click here</a> to visit thier website.</p>
 		            </div>
@@ -171,6 +171,7 @@
 
     class homepage extends page {
     	function get (){
+            $this->error = 'Work Dammit!';
     		$this->title = 'Welcome to PECB';
     		$this->contentHeader = '
     			<div class="jumbotron">
@@ -216,79 +217,93 @@
                 $session = new session();
                 $_SESSION['username'] = $this->username;
                 $_SESSION['password'] = $this->password;
-                header('location: http://localhost:8080/planetExpressBank/index.php?page=statementView');
+                header('location: ./index.php?page=statementView');
 
             }
             else{
                 $this->error = '<h2 style="color: red;">Login Failed Dummy!</h2>';
-                header('location: http://localhost:8080/planetExpressBank/index.php?page=homepage');
+                header('location: ./index.php?page=homepage&error');
+                return $this->error;
             }
             /*
             return $page;
             return $this->login;
             
             */
-            return $this->error;
+            
         }
     }
 
     class statementView extends page {
     	function get (){
-    		$this->title = 'View your staments';
-    		$this->contentHeader = '
-    			<h1>Greetings user!</h1>
-                <hr>
-                <p>Please find your statments below. If you have any questions, please contact out PECB help desk</p>
-    		';
-    		$this->content = '
-    			 <table class="table tabel-condensed">
-                    <caption>Statements and balances</caption>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>$$$</th>
-                            <th>Balance</th>
-                            <th>Decription</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>10/3/13</td>
-                            <td class="danger">-$1000.00</td>
-                            <td>$10.00</td>
-                            <td>Transfer funds (Pending)</td>
-                        </tr>
-                        <tr>
-                            <td>10/3/13</td>
-                            <td class="danger">-$1000.00</td>
-                            <td>$10.00</td>
-                            <td>Transfer funds (Pending)</td>
-                        </tr>
-                        <tr>
-                            <td>10/3/13</td>
-                            <td class="danger">-$1000.00</td>
-                            <td>$10.00</td>
-                            <td>Transfer funds (Pending)</td>
-                        </tr>
-                        <tr>
-                            <td>10/3/13</td>
-                            <td class="danger">-$1000.00</td>
-                            <td>$10.00</td>
-                            <td>Transfer funds (Pending)</td>
-                        </tr>
-                    </tbody>
-                </table>
-    		';
 
-    		return $this->title;
-    		return $this->contentHeader;
-    		return $this->content; 
+             $statementSession = new session();
+            if(isset($_SESSION['username']) && isset($_SESSION['password'])){
+
+                $user1 = $_SESSION['username']; 
+
+                $this->title = 'View your staments';
+                $this->contentHeader = '
+                    <h1>Greetings '.$user1.'!</h1>
+                    <hr>
+                    <p>Please find your statments below. If you have any questions, please contact out PECB help desk</p>
+                ';
+                $this->content = '
+                     <table class="table tabel-condensed">
+                        <caption>Statements and balances</caption>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>$$$</th>
+                                <th>Balance</th>
+                                <th>Decription</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>10/3/13</td>
+                                <td class="danger">-$1000.00</td>
+                                <td>$10.00</td>
+                                <td>Transfer funds (Pending)</td>
+                            </tr>
+                            <tr>
+                                <td>10/3/13</td>
+                                <td class="danger">-$1000.00</td>
+                                <td>$10.00</td>
+                                <td>Transfer funds (Pending)</td>
+                            </tr>
+                            <tr>
+                                <td>10/3/13</td>
+                                <td class="danger">-$1000.00</td>
+                                <td>$10.00</td>
+                                <td>Transfer funds (Pending)</td>
+                            </tr>
+                            <tr>
+                                <td>10/3/13</td>
+                                <td class="danger">-$1000.00</td>
+                                <td>$10.00</td>
+                                <td>Transfer funds (Pending)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br><hr>
+                    <a href="./index.php?page=logout" class="btn btn-danger">Log out</a>
+                ';
+
+                return $this->title;
+                return $this->contentHeader;
+                return $this->content;
+            
+            }else{
+                header('location: ./index.php?page=homepage');
+            }
     	}
     }
 
     class enterCreditsView extends page {
     	function get (){
-            session_start();////fdsakljfiowjrowealksfm;a --> Must be added to use the session variable in a freggin class!!!!
+            //session_start();////fdsakljfiowjrowealksfm;a --> Must be added to use the session variable in a freggin class!!!!
+            $creditSession = new session();
             if(isset($_SESSION['username']) && isset($_SESSION['password'])){
         		$this->title = 'Enter your credits';
         		$this->contentHeader = '
@@ -312,12 +327,15 @@
                             <input type="reset" name="" value="Reset" class="btn-info">
                         </div>
                     </form>
+                    <br><hr>
+                    <a href="./index.php?page=logout" class="btn btn-danger">Log out</a>
         		';
         		return $this->title;
         		return $this->contentHeader;
         		return $this->content;
             }else{
-                header('location: http://google.com');
+                //return $this->error = '<h2 style="color: red;">Need to be logged in Dummy!</h2>';
+                header('location: ./index.php?page=homepage');
             }
         }
     }
@@ -369,6 +387,28 @@
     	}
     }
 
+    class logout extends page {
+        function get (){
+            $loggedout = new sessionKill();
+            $this->title = 'You have logged out';
+            $this->contentHeader = '
+                <h1>Congrats, you have logged out!</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
+                 dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                 <hr>
+            ';
+            $this->content = '
+                 <p style="color: black;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
+                 dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                 <hr>';
+            return $this->title;
+            return $this->contentHeader;
+            return $this->content; 
+        }
+    }
+
     /*_________________________________________________________________________________________________________________________________________________________________
 
     Sessions
@@ -377,6 +417,12 @@
     class session{
         public function __construct(){
             session_start();
+        }
+    }
+
+    class sessionKill extends session{
+        public function __destruct(){
+            session_destroy();
         }
     }
 
