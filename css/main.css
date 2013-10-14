@@ -4,12 +4,15 @@
    Author's custom styles
    ========================================================================== */
 
-body {
-	background-image: url(../img/display/nnyc.jpg);
-	background-repeat: no-repeat;
+
+html {/*Will make the whole background the same*/
+	background: url(../img/display/nnyc.jpg) no-repeat center center fixed;
 	background-size: cover;
 	background-color: gray;
-	background-position: scroll;
+}
+
+body{/*To make the background effin visibile!*/
+	background-color: transparent;
 }
 
 section {

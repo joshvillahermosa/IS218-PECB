@@ -21,6 +21,12 @@
     	}
     }
 
+
+    /*_________________________________________________________________________________________________________________________________________________________________
+
+    Pages
+    __________________________________________________________________________________________________________________________________________________________________*/
+
     abstract class page{
     	//Variables to create HTML contemt
 
@@ -124,7 +130,7 @@
 		            	<section id="displayZone">
 		            	'.$this->content.'
 		            	</section>
-	       			</div>
+	       			</div
 	       			'.$this->footer.'
 	       			'.$this->libraries.'
 	       		</body>
@@ -138,7 +144,9 @@
 				<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 				<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 				<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+                <div id="BG">
 				'.$this->headBody.'
+                </div>
 				</html>
 	    	';
     	}
@@ -164,48 +172,62 @@
     class homepage extends page {
     	function get (){
     		$this->title = 'Welcome to PECB';
-    		$this->contentHeader .= '
+    		$this->contentHeader = '
     			<div class="jumbotron">
         			<h1>Planet Express Capital Bank!</h1>
+                    '.$this->error.'
                     <p>Planet Express Capital Bank (PECB) will ensure that you money will always be secure with our diamond-dillion cyber security. Our mission to provide the best quality serive to your money.</p>
                     <div class="row">
-                        <img src="img/display/bender.png" alt="Benders Bank" class="col-lg-3">
+                        <img src="./img/display/bender.png" alt="Benders Bank" class="col-lg-3">
                         <div class="form-group col-lg-8">
-                            <form action="index.php?arg=login;" method="post" accept-charset="utf-8" class="form-horizontal" role="form">
+                            <form name="login" action="index.php" method="post" accept-charset="utf-8" class="form-horizontal" role="form">
                                <label>Username: <input type="text" name="username" placeholder="username"></label>
                                <label>Password: <input type="password" name="password" placeholder="password"></label> <br>
-                               <button type="submit" class="btn btn-success">Submit</button>
+                               <input type="submit" class="btn btn-success" name="submit"></input>
                                <a href="./index.php?page=registerView" class="btn btn-primary">Register</a>
-                               <a href="./index.php?page=lostPasswordView" class="btn btn-info">Forgot Password?</a>
+                               <a href="./index.php?page=lostPasswordView" class="btn btn-info" >Forgot Password?</a>
                             </form>
                             <p class="text-muted">PECB is auduted and regulated by DOOPs chief financials. Under the leadership of Zapp Barnigan, all Galatical banks are ordered to follow Braniggans law:12:3.a. For more information <a href="http://google.com" title="Google">click here</a></p>
                         </div>
                     </div>
                 </div>
     		';
+
+            
     		return $this->title;
     		return $this->contentHeader;
     	}
 
        
 
-        function login(){
+        function post(){
             if(isset($_POST['username'])){
                 $this->username = $_POST['username'];
             }
             if (isset($_POST['password'])){
                 $this->password = $_POST['password'];
             }
-
-            if ($this->username = 'PhilipJFry' && $this->password = 'BenderSucks1'){
+            if ($this->username == 'PhilipJFry' && $this->password == 'BenderSucks1'){
+                
+                /*
                 $page = 'statementView';
                 $this->login = true;
+                */
+                $session = new session();
+                $_SESSION['username'] = $this->username;
+                $_SESSION['password'] = $this->password;
+                header('location: http://localhost:8080/planetExpressBank/index.php?page=statementView');
+
             }
             else{
-                $this->error = '<p style="color: red;">Login Failed Dummy!</p>';
+                $this->error = '<h2 style="color: red;">Login Failed Dummy!</h2>';
+                header('location: http://localhost:8080/planetExpressBank/index.php?page=homepage');
             }
+            /*
             return $page;
             return $this->login;
+            
+            */
             return $this->error;
         }
     }
@@ -257,6 +279,7 @@
                     </tbody>
                 </table>
     		';
+
     		return $this->title;
     		return $this->contentHeader;
     		return $this->content; 
@@ -265,33 +288,38 @@
 
     class enterCreditsView extends page {
     	function get (){
-    		$this->title = 'Enter your credits';
-    		$this->contentHeader = '
-    			<h1>Enter Credit Information Portal ()</h1>
-                <hr>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
-                culpa qui officia deserunt mollit anim id est laborum</p>
-                <hr>
-    		';
-    		$this->content = '
-    			  <form action="" method="post" accept-charset="utf-8" class="form" style="padding: 10px;">
-                    <div class="form-group">
-                        <label for="">Credits</label>
-                        <label>++ <input type="radio" name="addCredit" value=""></label>
-                        <label>-- <input type="radio" name="subCredit" value=""></label> <br>
-                        <label>$$ Amount $$:  <input type="text" name="creditAmount" value=""></label> <br>
-                        <label>Description:  <input type="text" name="creditDesc" value=""></label> <br>
-                        <input type="submit" name="submitValue" value="Submit Value" class="btn btn-danger">
-                        <input type="reset" name="" value="Reset" class="btn-info">
-                    </div>
-                </form>
-    		';
-    		return $this->title;
-    		return $this->contentHeader;
-    		return $this->content; 
-    	}
+            session_start();////fdsakljfiowjrowealksfm;a --> Must be added to use the session variable in a freggin class!!!!
+            if(isset($_SESSION['username']) && isset($_SESSION['password'])){
+        		$this->title = 'Enter your credits';
+        		$this->contentHeader = '
+        			<h1>Enter Credit Information Portal ()</h1>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+                    culpa qui officia deserunt mollit anim id est laborum</p>
+                    <hr>
+        		';
+        		$this->content = '
+        			  <form action="" method="post" accept-charset="utf-8" class="form" style="padding: 10px;">
+                        <div class="form-group">
+                            <label for="">Credits</label>
+                            <label>++ <input type="radio" name="addCredit" value=""></label>
+                            <label>-- <input type="radio" name="subCredit" value=""></label> <br>
+                            <label>$$ Amount $$:  <input type="text" name="creditAmount" value=""></label> <br>
+                            <label>Description:  <input type="text" name="creditDesc" value=""></label> <br>
+                            <input type="submit" name="submitValue" value="Submit Value" class="btn btn-danger">
+                            <input type="reset" name="" value="Reset" class="btn-info">
+                        </div>
+                    </form>
+        		';
+        		return $this->title;
+        		return $this->contentHeader;
+        		return $this->content;
+            }else{
+                header('location: http://google.com');
+            }
+        }
     }
 
     class registerView extends page {
@@ -340,4 +368,16 @@
     		return $this->content; 
     	}
     }
+
+    /*_________________________________________________________________________________________________________________________________________________________________
+
+    Sessions
+    __________________________________________________________________________________________________________________________________________________________________*/
+
+    class session{
+        public function __construct(){
+            session_start();
+        }
+    }
+
 ?>
